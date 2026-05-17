@@ -1,5 +1,6 @@
 package academy.prog.myshortenlink;
 
+import academy.prog.myshortenlink.dto.UrlStatDTO;
 import jakarta.persistence.*;
 
 import java.util.Date;
@@ -29,6 +30,7 @@ public class UrlRecord {
 
     public UrlStatDTO toDTO() {
         var dto = new UrlStatDTO();
+        dto.setId(id);
         dto.setCount(count);
         dto.setLastAccess(lastAccess);
         dto.setUrl(url);

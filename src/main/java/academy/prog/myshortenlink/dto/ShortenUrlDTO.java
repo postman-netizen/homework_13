@@ -1,4 +1,4 @@
-package academy.prog.myshortenlink;
+package academy.prog.myshortenlink.dto;
 
 public class ShortenUrlDTO extends UrlDTO {
 

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Short URL Statistics</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; }
+        table { border-collapse: collapse; width: 90%; margin-bottom: 20px; }
+        th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+        th { background-color: #f0f0f0; }
+        button { padding: 5px 10px; cursor: pointer; }
+    </style>
+</head>
+<body>
+
+<h1>Short URL Statistics</h1>
+
+<table id="linksTable">
+    <thead>
+    <tr>
+        <th>Original URL</th>
+        <th>Clicks</th>
+        <th>Last Access</th>
+        <th>Action</th>
+    </tr>
+    </thead>
+    <tbody></tbody>
+</table>
+
+<script>
+    const tableBody = document.querySelector("#linksTable tbody");
+
+    async function loadStatistics() {
+        try {
+            const response = await fetch('/stat', {
+                headers: { "Accept": "application/json" }
+            });
+
+            const links = await response.json();
+            console.log("Loaded JSON:", links);
+
+            tableBody.innerHTML = "";
+
+            if (!Array.isArray(links) || links.length === 0) {
+                tableBody.innerHTML = "<tr><td colspan='4'>No data found</td></tr>";
+                return;
+            }
+
+            links.forEach(link => {
+                const row = document.createElement("tr");
+
+                row.innerHTML = `
+                    <td>${link.url ?? ''}</td>
+                    <td>${link.count ?? 0}</td>
+                    <td>${link.lastAccess ? new Date(link.lastAccess).toLocaleString() : ''}</td>
+                    <td><button data-id="${link.id}">Delete</button></td>
+                `;
+
+                tableBody.appendChild(row);
+            });
+
+            document.querySelectorAll("button[data-id]").forEach(btn => {
+                btn.addEventListener("click", () => deleteLink(btn.dataset.id));
+            });
+
+        } catch (err) {
+            console.error("Error loading stat:", err);
+        }
+    }
+
+    async function deleteLink(id) {
+        if (!confirm("Delete this link?")) return;
+
+        try {
+            const response = await fetch(`/my/${id}`, { method: "DELETE" });
+
+            if (response.ok) {
+                loadStatistics();
+            } else {
+                alert("Failed to delete");
+            }
+        } catch (err) {
+            console.error("Delete error:", err);
+        }
+    }
+
+    loadStatistics();
+</script>
+
+</body>
+</html>

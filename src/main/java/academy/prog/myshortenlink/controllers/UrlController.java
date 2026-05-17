@@ -1,10 +1,13 @@
-package academy.prog.myshortenlink;
+package academy.prog.myshortenlink.controllers;
 
+import academy.prog.myshortenlink.dto.ShortenUrlDTO;
+import academy.prog.myshortenlink.dto.UrlDTO;
+import academy.prog.myshortenlink.dto.UrlStatDTO;
+import academy.prog.myshortenlink.services.UrlService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,7 +16,7 @@ import java.util.List;
 
 @RestController
 @PropertySource("classpath:application.properties")
-public class UrlControler {
+public class UrlController {
 
     private final UrlService urlService;
 
@@ -23,7 +26,7 @@ public class UrlControler {
     @Value("${server.port}")
     private String port;
 
-    public UrlControler(UrlService urlService) {
+    public UrlController(UrlService urlService) {
         this.urlService = urlService;
     }
 
@@ -59,8 +62,5 @@ public class UrlControler {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("stat")
-    public List<UrlStatDTO> statistics() {
-        return urlService.getStatistics();
-    }
+
 }

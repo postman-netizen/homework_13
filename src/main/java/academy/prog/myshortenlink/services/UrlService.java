@@ -1,4 +1,6 @@
-package academy.prog.myshortenlink;
+package academy.prog.myshortenlink.services;
+
+import academy.prog.myshortenlink.dto.UrlStatDTO;
 
 import java.util.List;
 

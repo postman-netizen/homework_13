@@ -1,5 +1,8 @@
-package academy.prog.myshortenlink;
+package academy.prog.myshortenlink.services;
 
+import academy.prog.myshortenlink.UrlRecord;
+import academy.prog.myshortenlink.UrlRepository;
+import academy.prog.myshortenlink.dto.UrlStatDTO;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
